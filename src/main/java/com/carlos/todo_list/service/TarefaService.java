@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.carlos.todo_list.exception.TarefaNaoEncontradaException;
 import com.carlos.todo_list.model.Tarefa;
 import com.carlos.todo_list.repository.TarefaRepository;
 
@@ -28,7 +29,7 @@ public class TarefaService {
 
     
     public Tarefa atualizarTarefa(Long id, Tarefa tarefaAtualizada) {
-        Optional<Tarefa> tarefaExistenteOptional = tarefaRepository.findById(id);
+        Optional<Tarefa> tarefaExistenteOptional = tarefaRepository.findById(id);	
 
         if (tarefaExistenteOptional.isPresent()) {
             Tarefa tarefaExistente = tarefaExistenteOptional.get();
@@ -37,7 +38,7 @@ public class TarefaService {
 
             return tarefaRepository.save(tarefaExistente);
         } else {
-            return null;
+           throw new TarefaNaoEncontradaException(id);
         }
     }
 
